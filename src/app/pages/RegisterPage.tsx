@@ -107,14 +107,13 @@ export function RegisterPage() {
           <div className="w-20 h-20 rounded-3xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-6 shadow-xl">
             <Sparkles className="w-10 h-10 text-white" />
           </div>
-          <h2 className="text-3xl text-white mb-4" style={{ fontWeight: 800 }}>Bergabung dengan HalalMart</h2>
+          <h2 className="text-3xl text-white mb-4" style={{ fontWeight: 800 }}>Bergabung dengan Sistem Arus Kas</h2>
           <p className="text-emerald-100 text-base leading-relaxed max-w-xs">
-            Mulai perjalanan mengelola keuangan halal Anda dengan platform yang modern dan terpercaya.
+            Mulai perjalanan mengelola keuangan Anda dengan platform yang modern dan terpercaya.
           </p>
 
           <div className="mt-10 space-y-3 w-full max-w-xs">
             {[
-              '✓ Gratis selamanya untuk UMKM',
               '✓ Laporan PDF profesional',
               '✓ Dashboard visual interaktif',
               '✓ Dark mode & Light mode',

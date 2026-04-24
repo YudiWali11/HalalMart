@@ -9,7 +9,6 @@ import { Sun, Moon } from 'lucide-react';
 
 const features = [
   { icon: TrendingUp, label: 'Pantau Arus Kas', desc: 'Visualisasi pemasukan & pengeluaran real-time' },
-  { icon: Shield, label: 'Data Aman', desc: 'Pencatatan yang terpercaya dan terstruktur' },
   { icon: Zap, label: 'Laporan Instan', desc: 'Export PDF profesional kapan saja' },
 ];
 
@@ -110,14 +109,7 @@ export function LoginPage() {
               <br />
               <span className="text-emerald-200">Lebih Cerdas</span>
             </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-emerald-100 text-base leading-relaxed mb-10"
-            >
-              Platform pencatatan arus kas modern untuk UMKM halal Anda. Pantau, analisis, dan kembangkan bisnis bersama HalalMart.
-            </motion.p>
+
 
             <div className="space-y-4">
               {features.map((f, i) => (
