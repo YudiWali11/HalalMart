@@ -87,8 +87,8 @@ export function LoginPage() {
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-white" />
+            <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-md overflow-hidden">
+              <img src="/logo.png" alt="Logo" className="w-9 h-9 object-contain" />
             </div>
             <div>
               <p className="text-white font-bold text-lg leading-tight">HalalMart</p>
@@ -148,8 +148,8 @@ export function LoginPage() {
 
         {/* Mobile logo */}
         <div className="lg:hidden flex items-center gap-2 mb-8">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-white" />
+          <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-md overflow-hidden">
+            <img src="/logo.png" alt="Logo" className="w-7 h-7 object-contain" />
           </div>
           <p className="font-bold text-gray-900 dark:text-white text-xl">HalalMart</p>
         </div>

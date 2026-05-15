@@ -161,7 +161,7 @@ export function ExportPDFPage() {
 <body>
   <div class="header">
     <div class="brand">
-      <div class="brand-icon">✦</div>
+      <img src="/logo.png" style="width:36px; height:36px; object-fit:contain; background:#fff; border-radius:8px; padding:2px;" />
       <div><div class="brand-name">HalalMart</div><div class="brand-sub">Sistem Arus Kas UMKM</div></div>
     </div>
     <div class="report-info">
@@ -404,7 +404,9 @@ export function ExportPDFPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <div className="flex items-center gap-2 mb-2">
-                            <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center text-white text-xs">✦</div>
+                            <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center overflow-hidden">
+                              <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
+                            </div>
                             <span className="text-white text-lg" style={{ fontWeight: 700 }}>HalalMart</span>
                           </div>
                           <p className="text-emerald-100 text-xs">Sistem Arus Kas UMKM</p>

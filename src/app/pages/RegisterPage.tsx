@@ -104,8 +104,8 @@ export function RegisterPage() {
         <div className="absolute bottom-10 right-10 w-48 h-48 bg-emerald-300/20 rounded-full blur-3xl" />
 
         <div className="relative z-10 flex flex-col justify-center items-center p-12 w-full text-center">
-          <div className="w-20 h-20 rounded-3xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-6 shadow-xl">
-            <Sparkles className="w-10 h-10 text-white" />
+          <div className="w-24 h-24 rounded-3xl bg-white flex items-center justify-center mb-6 shadow-xl overflow-hidden">
+            <img src="/logo.png" alt="Logo" className="w-16 h-16 object-contain" />
           </div>
           <h2 className="text-3xl text-white mb-4" style={{ fontWeight: 800 }}>Bergabung dengan Sistem Arus Kas</h2>
           <p className="text-emerald-100 text-base leading-relaxed max-w-xs">
@@ -136,8 +136,8 @@ export function RegisterPage() {
         </button>
 
         <div className="lg:hidden flex items-center gap-2 mb-8">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-white" />
+          <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-md overflow-hidden">
+            <img src="/logo.png" alt="Logo" className="w-7 h-7 object-contain" />
           </div>
           <p className="font-bold text-gray-900 dark:text-white text-xl">HalalMart</p>
         </div>

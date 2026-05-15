@@ -44,8 +44,8 @@ export function Layout() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center animate-pulse">
-            <Sparkles className="w-6 h-6 text-white" />
+          <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center animate-pulse overflow-hidden shadow-sm">
+            <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
           </div>
           <p className="text-gray-500 dark:text-gray-400 text-sm animate-pulse">Memuat data...</p>
         </div>
@@ -177,8 +177,8 @@ function SidebarContent({ initials, user, onClose, onLogout, pathname }: {
     <>
       {/* Logo */}
       <div className="flex items-center gap-3 px-5 h-16 border-b border-gray-100 dark:border-gray-800 shrink-0">
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 via-teal-500 to-green-600 flex items-center justify-center shadow-lg shadow-emerald-500/30 shrink-0">
-          <Sparkles className="w-5 h-5 text-white" />
+        <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-lg shrink-0 overflow-hidden">
+          <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-gray-900 dark:text-white leading-tight" style={{ fontWeight: 700 }}>HalalMart</p>
