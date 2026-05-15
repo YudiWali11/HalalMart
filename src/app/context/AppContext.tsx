@@ -1,7 +1,9 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import axios from 'axios';
 
-axios.defaults.withCredentials = true;
+// Remove withCredentials for cross-domain token auth
+// axios.defaults.withCredentials = true;
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL || '';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers.common['Accept'] = 'application/json';
 
@@ -78,12 +80,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // On mount: check if user is already logged in via session
+  // On mount: check if user is already logged in via token
   useEffect(() => {
-    axios.get('/api/user')
-      .then(res => setUser(res.data))
-      .catch(() => setUser(null))
-      .finally(() => setLoading(false));
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      axios.get('/api/user')
+        .then(res => setUser(res.data))
+        .catch(() => {
+          setUser(null);
+          localStorage.removeItem('auth_token');
+          delete axios.defaults.headers.common['Authorization'];
+        })
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   // When user changes, fetch or clear data
@@ -100,11 +112,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [user]);
 
   /**
-   * Login: get CSRF cookie first, then POST credentials.
-   * On success, sets user state → triggers data fetch.
+   * Login: POST credentials, receive token.
+   * On success, sets token and user state → triggers data fetch.
    */
   const login = async (email: string, password: string) => {
     const res = await axios.post('/api/login', { email, password });
+    const token = res.data.token;
+    localStorage.setItem('auth_token', token);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setUser(res.data.user);
   };
 
@@ -123,7 +138,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   /**
-   * Logout: invalidate session on server, then clear local state.
+   * Logout: invalidate token on server, then clear local state.
    * Always clears user even if server call fails.
    */
   const logout = async () => {
@@ -132,6 +147,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     } catch (err) {
       console.error('Logout error:', err);
     } finally {
+      localStorage.removeItem('auth_token');
+      delete axios.defaults.headers.common['Authorization'];
       setUser(null);
     }
   };

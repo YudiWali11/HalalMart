@@ -18,7 +18,7 @@ function figmaAssetResolver() {
 
 export default defineConfig({
   plugins: [
-    laravel({
+    !process.env.VERCEL && laravel({
       input: ['src/main.tsx'],
       refresh: true,
     }),
@@ -27,7 +27,7 @@ export default defineConfig({
     // Tailwind is not being actively used – do not remove them
     react(),
     tailwindcss(),
-  ],
+  ].filter(Boolean),
   resolve: {
     alias: {
       // Alias @ to the src directory

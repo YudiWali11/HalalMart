@@ -57,16 +57,19 @@ class AuthController extends Controller
             'password.required' => 'Password wajib diisi.',
         ]);
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['Email atau password salah.'],
             ]);
         }
 
-        $request->session()->regenerate();
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'user' => Auth::user(),
+            'user' => $user,
+            'token' => $token,
             'message' => 'Login berhasil!',
         ]);
     }
@@ -76,10 +79,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $request->user()->currentAccessToken()->delete();
 
         return response()->json(['message' => 'Berhasil keluar.']);
     }
