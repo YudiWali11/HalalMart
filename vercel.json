@@ -8,7 +8,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api/index.php"
+      "destination": "/api/index.php?vercel_request_uri=/api/$1"
     },
     {
       "source": "/(.*)",
