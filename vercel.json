@@ -2,17 +2,17 @@
   "version": 2,
   "functions": {
     "api/index.php": {
-      "runtime": "vercel-php@0.6.0"
+      "runtime": "vercel-php@0.6.2"
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/index.php"
+      "source": "/api/(.*)",
+      "destination": "/api/index.php"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "env": {
