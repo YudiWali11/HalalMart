@@ -218,13 +218,37 @@ export function ExportPDFPage() {
 </body>
 </html>`;
 
-    const win = window.open('', '_blank', 'width=900,height=700');
-    if (!win) { toast.error('Pop-up diblokir browser. Izinkan pop-up untuk halaman ini.'); return; }
-    win.document.write(html);
-    win.document.close();
-    win.focus();
-    setTimeout(() => { win.print(); }, 500);
-    toast.success('Membuka dialog cetak / save PDF...');
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'fixed';
+    iframe.style.right = '0';
+    iframe.style.bottom = '0';
+    iframe.style.width = '0';
+    iframe.style.height = '0';
+    iframe.style.border = '0';
+    document.body.appendChild(iframe);
+
+    const doc = iframe.contentWindow?.document;
+    if (!doc) {
+      toast.error('Gagal menyiapkan dokumen cetak');
+      return;
+    }
+
+    doc.open();
+    doc.write(html);
+    doc.close();
+
+    // Tunggu sebentar agar konten (seperti logo/font) termuat sempurna
+    setTimeout(() => {
+      iframe.contentWindow?.focus();
+      iframe.contentWindow?.print();
+      
+      // Hapus iframe setelah dialog cetak muncul/selesai
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+      }, 1000);
+    }, 500);
+
+    toast.success('Menyiapkan laporan PDF...');
   };
 
   const reportTypeLabels: Record<ReportType, string> = {
