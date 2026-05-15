@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ArusKas App</title>
+    <title>HalalMart</title>
     <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
     @viteReactRefresh
     @vite('src/main.tsx')
