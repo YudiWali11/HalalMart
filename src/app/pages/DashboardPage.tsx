@@ -87,25 +87,40 @@ export function DashboardPage() {
 
   // Monthly chart data
   const monthlyData = useMemo(() => {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr'];
-    const monthMap: Record<string, { masuk: number; keluar: number }> = {
-      '2026-01': { masuk: 0, keluar: 0 },
-      '2026-02': { masuk: 0, keluar: 0 },
-      '2026-03': { masuk: 0, keluar: 0 },
-      '2026-04': { masuk: 0, keluar: 0 },
-    };
+    const monthMap: Record<string, { masuk: number; keluar: number }> = {};
+    
     filtered.forEach(t => {
-      const key = t.date.slice(0, 7);
-      if (monthMap[key]) {
-        if (t.type === 'masuk') monthMap[key].masuk += t.amount;
-        else monthMap[key].keluar += t.amount;
+      const key = t.date.slice(0, 7); // "YYYY-MM"
+      if (!monthMap[key]) {
+        monthMap[key] = { masuk: 0, keluar: 0 };
+      }
+      if (t.type === 'masuk') {
+        monthMap[key].masuk += t.amount;
+      } else {
+        monthMap[key].keluar += t.amount;
       }
     });
-    return Object.entries(monthMap).map(([key, val], i) => ({
-      name: months[i],
-      Pemasukan: val.masuk,
-      Pengeluaran: val.keluar,
-    }));
+
+    if (Object.keys(monthMap).length === 0) {
+      return [];
+    }
+
+    const sortedKeys = Object.keys(monthMap).sort();
+
+    const monthNamesIndo: Record<string, string> = {
+      '01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr', '05': 'Mei', '06': 'Jun',
+      '07': 'Jul', '08': 'Ags', '09': 'Sep', '10': 'Okt', '11': 'Nov', '12': 'Des'
+    };
+
+    return sortedKeys.map(key => {
+      const [year, month] = key.split('-');
+      const name = `${monthNamesIndo[month] || month} ${year.slice(-2)}`;
+      return {
+        name,
+        Pemasukan: monthMap[key].masuk,
+        Pengeluaran: monthMap[key].keluar,
+      };
+    });
   }, [filtered]);
 
   // Daily chart (last 14 days)
