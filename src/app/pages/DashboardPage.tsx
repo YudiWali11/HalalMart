@@ -85,43 +85,45 @@ export function DashboardPage() {
   const totalKeluar = useMemo(() => filtered.filter(t => t.type === 'keluar').reduce((s, t) => s + t.amount, 0), [filtered]);
   const saldo = totalMasuk - totalKeluar;
 
-  // Monthly chart data
+  // Monthly chart data (January of current year to current month)
   const monthlyData = useMemo(() => {
-    const monthMap: Record<string, { masuk: number; keluar: number }> = {};
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth(); // 0 = Jan, 5 = Jun
     
-    filtered.forEach(t => {
-      const key = t.date.slice(0, 7); // "YYYY-MM"
-      if (!monthMap[key]) {
-        monthMap[key] = { masuk: 0, keluar: 0 };
-      }
-      if (t.type === 'masuk') {
-        monthMap[key].masuk += t.amount;
-      } else {
-        monthMap[key].keluar += t.amount;
-      }
-    });
-
-    if (Object.keys(monthMap).length === 0) {
-      return [];
+    const monthMap: Record<string, { masuk: number; keluar: number }> = {};
+    const months: string[] = [];
+    const monthNamesIndo = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+    
+    for (let m = 0; m <= currentMonth; m++) {
+      const monthStr = String(m + 1).padStart(2, '0');
+      const key = `${currentYear}-${monthStr}`;
+      monthMap[key] = { masuk: 0, keluar: 0 };
+      months.push(monthNamesIndo[m]);
     }
-
-    const sortedKeys = Object.keys(monthMap).sort();
-
-    const monthNamesIndo: Record<string, string> = {
-      '01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr', '05': 'Mei', '06': 'Jun',
-      '07': 'Jul', '08': 'Ags', '09': 'Sep', '10': 'Okt', '11': 'Nov', '12': 'Des'
-    };
-
-    return sortedKeys.map(key => {
-      const [year, month] = key.split('-');
-      const name = `${monthNamesIndo[month] || month} ${year.slice(-2)}`;
-      return {
-        name,
-        Pemasukan: monthMap[key].masuk,
-        Pengeluaran: monthMap[key].keluar,
-      };
+    
+    transactions.forEach(t => {
+      const txYear = parseInt(t.date.slice(0, 4));
+      if (txYear !== currentYear) return;
+      
+      const key = t.date.slice(0, 7); // "YYYY-MM"
+      if (monthMap[key] !== undefined) {
+        if (catFilter && t.categoryId !== catFilter) return;
+        
+        if (t.type === 'masuk') {
+          monthMap[key].masuk += t.amount;
+        } else {
+          monthMap[key].keluar += t.amount;
+        }
+      }
     });
-  }, [filtered]);
+    
+    return Object.keys(monthMap).sort().map((key, i) => ({
+      name: months[i],
+      Pemasukan: monthMap[key].masuk,
+      Pengeluaran: monthMap[key].keluar,
+    }));
+  }, [transactions, catFilter]);
 
   // Daily chart (last 14 days)
   const dailyData = useMemo(() => {
