@@ -80,7 +80,7 @@ $productsTier3 = [ // High-price/Special Supplements/Promo Packages (Rp 175.000 
 ];
 
 $startDate = Carbon::create(2026, 5, 1);
-$endDate = Carbon::create(2026, 6, 30);
+$endDate = Carbon::today();
 $currentDate = clone $startDate;
 
 $totalMasukAll = 0;
@@ -229,9 +229,10 @@ while ($currentDate->lte($endDate)) {
 
 $profit = $totalMasukAll - $totalKeluarAll;
 $profitPercentage = $totalMasukAll > 0 ? ($profit / $totalMasukAll) * 100 : 0;
+$daysCount = max(1, $startDate->diffInDays($endDate) + 1);
 
-echo "Berhasil membuat data dummy (1 Mei 2026 - 30 Juni 2026)!\n";
+echo "Berhasil membuat data dummy (" . $startDate->format('d M Y') . " - " . $endDate->format('d M Y') . ")!\n";
 echo "Total Transaksi Dibuat: " . $countTransactions . "\n";
-echo "Total Pemasukan (Omzet): Rp " . number_format($totalMasukAll, 0, ',', '.') . " (Rata-rata: Rp " . number_format($totalMasukAll / 61, 0, ',', '.') . " / hari)\n";
+echo "Total Pemasukan (Omzet): Rp " . number_format($totalMasukAll, 0, ',', '.') . " (Rata-rata: Rp " . number_format($totalMasukAll / $daysCount, 0, ',', '.') . " / hari)\n";
 echo "Total Pengeluaran: Rp " . number_format($totalKeluarAll, 0, ',', '.') . "\n";
 echo "Total Keuntungan Bersih: Rp " . number_format($profit, 0, ',', '.') . " (" . number_format($profitPercentage, 2, ',', '.') . "%)\n";

@@ -11,7 +11,10 @@ for ($i = 0; $i < 50; $i++) {
     $type = $cat->type;
     $name = $cat->name . ' Transaksi #' . rand(100, 999);
     
-    $date = Carbon::create(2026, rand(1, 4), rand(1, 28))->format('Y-m-d');
+    $start = Carbon::create(2026, 1, 1);
+    $end = Carbon::today();
+    $randomDays = rand(0, $start->diffInDays($end));
+    $date = $start->copy()->addDays($randomDays)->format('Y-m-d');
     $amount = ($type === 'masuk') ? rand(200000, 3000000) : rand(50000, 1500000);
     
     Transaction::create([
